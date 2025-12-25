@@ -29,9 +29,15 @@ App.use(Router);
 
 App.get('/docs', (ctx) => ctx.redirect('/docs/v2'));
 
+App.get('/', () => file('./src/static/index.html'));
+
+App.get('/script.js', () => file('./src/static/script.js'));
+
 App.get('/docs/v1', () => file('./src/static/swagger-ui.html'));
 
 App.get('/docs/v2', () => file('./src/static/scalar.html'));
+
+App.get('/assets/:filename', (ctx) => file(`./assets/${ctx.params.filename}`));
 
 App.get('/robots.txt', () => file('./src/static/robots.txt'));
 

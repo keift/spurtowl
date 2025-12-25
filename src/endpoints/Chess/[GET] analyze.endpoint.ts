@@ -1,6 +1,4 @@
-import { Chess } from 'chess.js';
-import { Patterns } from 'yuppi';
-
+import { Analyze } from '../../utils/Analyze.util';
 import { RESTSchema } from '../../utils/RESTSchema.util';
 
 import type { EndpointOptions } from '../../types/EndpointOptions.type';
@@ -9,12 +7,19 @@ import type { EndpointConfig } from '../../types/EndpointConfig.type';
 import type { GetAnalyze as Fields } from '../../yuppi/types/GetAnalyze';
 
 export const GetAnalyze = {
+  // eslint-disable-next-line @typescript-eslint/require-await
   async handle({ props }: EndpointOptions) {
     const fields = props.context.fields as Fields;
 
-    const chess = new Chess(fields.fen);
+    let analyze;
 
-    return RESTSchema({}, 201, props);
+    try {
+      analyze = Analyze(fields.fen, { thinking_time: 2500 });
+    } catch {
+      return RESTSchema({ message: 'Invalid FEN' }, 400, props);
+    }
+
+    return RESTSchema(analyze, 200, props);
   },
 
   config(): EndpointConfig {
