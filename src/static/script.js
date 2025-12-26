@@ -8,7 +8,7 @@ const load = (fen) => {
   chess.load(fen);
   setTimeout(() => board.position(chess.fen()), 100);
 
-  // board.orientation(fen.split(' ')[1].split(' ')[0] === 'w' ? 'white' : 'black');
+  // board.orientation(chess.turn() === 'w' ? 'white' : 'black');
 };
 
 const onDrop = (from, to) => {
