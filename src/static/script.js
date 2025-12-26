@@ -1,23 +1,34 @@
 const chess = new Chess();
 
-document.querySelector('#fen').value = chess.fen();
+let auto = false;
+
+const load = (fen) => {
+  document.querySelector('#fen').value = fen;
+
+  chess.load(fen);
+  setTimeout(() => board.position(chess.fen()), 100);
+
+  // board.orientation(fen.split(' ')[1].split(' ')[0] === 'w' ? 'white' : 'black');
+};
+
+const onDrop = (from, to) => {
+  try {
+    chess.move({ from, to, promotion: 'q' });
+  } catch {
+    return 'snapback';
+  }
+
+  load(chess.fen());
+
+  analyze(chess.fen());
+};
 
 const board = Chessboard('board', {
   position: 'start',
   draggable: true,
   pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png',
 
-  onDrop: (from, to) => {
-    try {
-      chess.move({ from, to, promotion: 'q' });
-    } catch {
-      return 'snapback';
-    }
-
-    document.querySelector('#fen').value = chess.fen();
-
-    analyze(true);
-  }
+  onDrop
 });
 
 let arrow;
@@ -96,20 +107,10 @@ const drawArrow = (from, to) => {
   board.appendChild(arrow);
 };
 
-const analyze = async (no_load) => {
+const analyze = async (fen) => {
   if (!board) return;
 
   document.title = 'Analyzing...';
-
-  const fen = document.getElementById('fen').value;
-  const board_fen = fen.split(' ')[0];
-
-  if (!no_load) {
-    chess.load(fen);
-    board.position(board_fen);
-  }
-
-  board.orientation(fen.split(' ')[1].split(' ')[0] === 'w' ? 'white' : 'black');
 
   if (arrow) arrow.remove();
 
@@ -121,11 +122,35 @@ const analyze = async (no_load) => {
 
   const { result } = await res.json();
 
+  if (auto) onDrop(result.from, result.to);
+
   drawArrow(result.from, result.to);
 
   document.title = 'Spurtowl';
 };
 
-document.querySelector('#analyze').addEventListener('click', () => analyze());
+document.querySelector('#analyze').addEventListener('click', () => {
+  load(document.querySelector('#fen').value);
 
-analyze();
+  analyze(document.querySelector('#fen').value);
+});
+
+document.querySelector('#auto').addEventListener('click', () => {
+  if (auto) {
+    auto = false;
+
+    document.querySelector('#auto').innerText = 'Auto (OFF)';
+  } else {
+    auto = true;
+
+    document.querySelector('#auto').innerText = 'Auto (ON)';
+  }
+
+  load(document.querySelector('#fen').value);
+
+  analyze(document.querySelector('#fen').value);
+});
+
+load(chess.fen());
+
+analyze(chess.fen());
