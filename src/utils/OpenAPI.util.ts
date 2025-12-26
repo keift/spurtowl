@@ -122,7 +122,7 @@ export const generateOpenAPI = (endpoints: { config(): EndpointConfig }[]) => {
         }
       },
 
-      ...(endpoint_config.authorization ? { security: [{ Authorization: [] }] } : {}),
+      ...{ security: [{ Authorization: [] }] },
       tags: [endpoint_config.category],
       deprecated: endpoint_config.deprecated
     };
