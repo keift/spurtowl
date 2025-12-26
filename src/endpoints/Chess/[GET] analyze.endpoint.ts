@@ -15,8 +15,7 @@ export const GetAnalyze = {
 
     try {
       analyze = Analyze(fields.fen, { thinking_time: 2500 });
-    } catch (e) {
-      console.log(e)
+    } catch {
       return RESTSchema({ message: 'Invalid FEN' }, 400, props);
     }
 
