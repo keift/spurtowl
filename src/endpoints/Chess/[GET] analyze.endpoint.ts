@@ -1,4 +1,4 @@
-import { Analyze } from '../../utils/Analyze.util';
+import { Analyze } from '../../utils/Analyze-v2.util';
 import { RESTSchema } from '../../utils/RESTSchema.util';
 
 import type { EndpointOptions } from '../../types/EndpointOptions.type';
@@ -14,8 +14,9 @@ export const GetAnalyze = {
     let analyze;
 
     try {
-      analyze = Analyze(fields.fen, { thinking_time: 1000 });
-    } catch {
+      analyze = Analyze(fields.fen, { thinking_time: 2500 });
+    } catch (e) {
+      console.log(e)
       return RESTSchema({ message: 'Invalid FEN' }, 400, props);
     }
 
@@ -28,7 +29,7 @@ export const GetAnalyze = {
       method: 'GET',
       category: 'Chess',
 
-      limit: 10,
+      limit: 1000,
       cooldown: 10000,
 
       fields: {
