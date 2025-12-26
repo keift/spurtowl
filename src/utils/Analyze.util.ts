@@ -25,7 +25,7 @@ const evaluate = (chess: Chess) => {
     }
   }
 
-  if (chess.isCheck()) score += chess.turn() === 'w' ? -10 : 10;
+  if (chess.isCheck()) score += chess.turn() === 'w' ? -100 : 100;
 
   return score;
 };

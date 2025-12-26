@@ -1,14 +1,26 @@
-let board;
-let arrow;
+const chess = new Chess();
 
-document.addEventListener('DOMContentLoaded', () => {
-  board = Chessboard('board', {
-    position: 'start',
-    pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
-  });
+document.querySelector('#fen').value = chess.fen();
 
-  document.querySelector('#analyze').addEventListener('click', analyze);
+const board = Chessboard('board', {
+  position: 'start',
+  draggable: true,
+  pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png',
+
+  onDrop: (from, to) => {
+    try {
+      chess.move({ from, to, promotion: 'q' });
+    } catch {
+      return 'snapback';
+    }
+
+    document.querySelector('#fen').value = chess.fen();
+
+    analyze(true);
+  }
 });
+
+let arrow;
 
 const drawArrow = (from, to) => {
   if (arrow) arrow.remove();
@@ -54,7 +66,6 @@ const drawArrow = (from, to) => {
   arrow.style.top = '0';
   arrow.style.left = '0';
   arrow.style.pointerEvents = 'none';
-  arrow.style.zIndex = '99';
 
   const color = 'rgba(85, 85, 85)';
 
@@ -76,7 +87,7 @@ const drawArrow = (from, to) => {
       x2="${end_x}"
       y2="${end_y}"
       stroke="${color}"
-      stroke-width="7"
+      stroke-width="7.5"
       stroke-linecap="round"
       marker-end="url(#arrowhead)"
     />
@@ -85,7 +96,7 @@ const drawArrow = (from, to) => {
   board.appendChild(arrow);
 };
 
-const analyze = async () => {
+const analyze = async (no_load) => {
   if (!board) return;
 
   document.title = 'Analyzing...';
@@ -93,7 +104,12 @@ const analyze = async () => {
   const fen = document.getElementById('fen').value;
   const board_fen = fen.split(' ')[0];
 
-  board.position(board_fen);
+  if (!no_load) {
+    chess.load(fen);
+    board.position(board_fen);
+  }
+
+  board.orientation(fen.split(' ')[1].split(' ')[0] === 'w' ? 'white' : 'black');
 
   if (arrow) arrow.remove();
 
@@ -109,3 +125,7 @@ const analyze = async () => {
 
   document.title = 'Spurtowl';
 };
+
+document.querySelector('#analyze').addEventListener('click', () => analyze());
+
+analyze();
