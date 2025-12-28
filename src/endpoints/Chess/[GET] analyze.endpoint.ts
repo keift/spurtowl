@@ -28,7 +28,7 @@ export const GetAnalyze = {
       method: 'GET',
       category: 'Chess',
 
-      limit: 1000,
+      limit: 10,
       cooldown: 10000,
 
       fields: {
