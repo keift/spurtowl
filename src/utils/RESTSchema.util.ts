@@ -17,7 +17,7 @@ export const RESTSchema = (result: Record<string, unknown>, code: number, props:
   const ip_address = requestIP(props.context);
   const latency = Number((performance.now() - props.perf_now).toFixed(4));
 
-  global.Debugger.info(`\x1b[90m[\x1b[37m${ip_address} \x1b[90m⇋ ${latency.toFixed(2)} ms ${success ? '\x1b[32m' : '\x1b[31m'}${code.toString()}\x1b[90m] \x1b[34m${props.context.request.method.toUpperCase()} \x1b[33m${props.context.path}`);
+  global.Log.info(`\x1b[90m[\x1b[37m${ip_address} \x1b[90m⇋ ${latency.toFixed(2)} ms ${success ? '\x1b[32m' : '\x1b[31m'}${code.toString()}\x1b[90m] \x1b[34m${props.context.request.method.toUpperCase()} \x1b[33m${props.context.path}`);
 
   return JSON.stringify({ success, latency, code, result }, null, 2);
 };

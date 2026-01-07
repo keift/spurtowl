@@ -24,14 +24,14 @@ const createProps = (context: Context): Props => ({
 
 export const Router = new Elysia();
 
-export const buildRouter = () => {
+export const buildRouter = async () => {
   for (const endpoint of endpoints) {
     const endpoint_config = endpoint.config();
 
     const path = trimPath(global.config.api_base_url + endpoint_config.path);
     const endpoint_identifier = `${endpoint_config.method.toLowerCase()}--${slug(path)}`;
 
-    global.Yuppi.declare(endpoint_config.fields, endpoint_identifier);
+    await global.Yuppi.declare(endpoint_config.fields, endpoint_identifier);
 
     Router.route(endpoint_config.method.toLowerCase(), path, async (ctx) => {
       const props = createProps(ctx);
@@ -56,7 +56,7 @@ export const buildRouter = () => {
         props.context.fields = { ...props.context.query, ...(props.context.body as Record<string, unknown>) };
 
         try {
-          props.context.fields = global.Yuppi.validate(endpoint_config.fields, props.context.fields);
+          props.context.fields = await global.Yuppi.validate(endpoint_config.fields, props.context.fields);
 
           return await endpoint.handle({ props });
         } catch (error) {
@@ -65,7 +65,7 @@ export const buildRouter = () => {
           return RESTSchema({ message: errors[0] }, 400, props);
         }
       } catch (error) {
-        global.Debugger.error(error as string);
+        global.Log.error(error as string);
 
         return RESTSchema({ message: 'Internal server error' }, 500, props);
       }

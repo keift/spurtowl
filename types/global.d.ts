@@ -1,14 +1,12 @@
 import type { Yuppi } from 'yuppi';
-
-import type { Debugger } from '../src/utils/Debugger.util';
+import type { Log } from '@keift/utils';
 
 import type { config as Config } from '../config';
 
 declare global {
-  var Yuppi: Yuppi;
-  var Debugger: Debugger;
-
-  var NumberFormat: Intl.NumberFormat;
-
   var config: typeof Config;
+
+  var Yuppi: Yuppi;
+  var Log: Log;
+  var NumberFormat: Intl.NumberFormat;
 }
