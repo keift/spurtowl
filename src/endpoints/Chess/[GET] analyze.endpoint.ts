@@ -18,7 +18,7 @@ export const GetAnalyze = {
     let analyze_result: ReturnType<typeof Analyze>;
 
     try {
-      analyze_result = (await analyze.run({ fen: fields.fen, thinking_time: 5000 })) as ReturnType<typeof Analyze>;
+      analyze_result = (await analyze.run({ fen: fields.fen, thinking_time: 2500 })) as ReturnType<typeof Analyze>;
     } catch {
       return RESTSchema({ message: 'Invalid FEN' }, 400, props);
     }
