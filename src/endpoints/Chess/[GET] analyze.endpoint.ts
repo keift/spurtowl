@@ -23,7 +23,7 @@ export const GetAnalyze = {
       return RESTSchema({ message: 'Invalid FEN' }, 400, props);
     }
 
-    return RESTSchema(analyze_result ?? {}, 200, props);
+    return RESTSchema(analyze_result ?? { from: null, to: null }, 200, props);
   },
 
   config(): EndpointConfig {
