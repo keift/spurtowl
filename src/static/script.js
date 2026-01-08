@@ -13,7 +13,7 @@ const load = (fen) => {
     if (chess.isCheckmate()) {
       const winner = chess.turn() === 'w' ? 'Black' : 'white';
 
-      alert(`Winner: ${winner}`);
+      document.querySelector('#status').innerText = `Winner: ${winner}`;
     }
   }, 1000);
 
