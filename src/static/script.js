@@ -11,7 +11,7 @@ const load = (fen) => {
 
   setTimeout(() => {
     if (chess.isCheckmate()) {
-      const winner = chess.turn() === 'w' ? 'Black' : 'white';
+      const winner = chess.turn() === 'w' ? 'Black' : 'White';
 
       document.querySelector('#status').innerText = `Winner: ${winner}`;
     }
