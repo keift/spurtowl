@@ -117,7 +117,7 @@ const drawArrow = (from, to) => {
 };
 
 const analyze = async (fen) => {
-  if (!board) return;
+  if (!board || chess.isCheckmate()) return;
 
   if (match_mode && chess.turn() === 'w') return;
 
