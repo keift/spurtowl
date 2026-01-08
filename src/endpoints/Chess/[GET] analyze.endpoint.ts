@@ -4,7 +4,7 @@ import { RESTSchema } from '../../utils/RESTSchema.util';
 import type { EndpointOptions } from '../../types/EndpointOptions.type';
 import type { EndpointConfig } from '../../types/EndpointConfig.type';
 
-import type { GetAnalyze as Fields } from '../../generated/yuppi/types/GetAnalyze';
+import type { GetApiAnalyze as Fields } from '../../generated/yuppi/types/GetApiAnalyze';
 
 export const GetAnalyze = {
   // eslint-disable-next-line @typescript-eslint/require-await

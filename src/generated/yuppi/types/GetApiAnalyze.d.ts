@@ -6,6 +6,6 @@
  * Use `Yuppi.declare()` to regenerate this type.
  */
 
-export interface GetAnalyze {
+export interface GetApiAnalyze {
   fen: string;
 }
