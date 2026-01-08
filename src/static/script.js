@@ -1,12 +1,21 @@
 const chess = new Chess();
 
 let auto = false;
+let match_mode = false;
 
 const load = (fen) => {
   document.querySelector('#fen').value = fen;
 
   chess.load(fen);
   setTimeout(() => board.position(chess.fen()), 100);
+
+  setTimeout(() => {
+    if (chess.isCheckmate()) {
+      const winner = chess.turn() === 'w' ? 'Black' : 'white';
+
+      alert(`Winner: ${winner}`);
+    }
+  }, 1000);
 
   // board.orientation(chess.turn() === 'w' ? 'white' : 'black');
 };
@@ -110,6 +119,8 @@ const drawArrow = (from, to) => {
 const analyze = async (fen) => {
   if (!board) return;
 
+  if (match_mode && chess.turn() === 'w') return;
+
   document.title = 'Analyzing...';
 
   if (arrow) arrow.remove();
@@ -151,6 +162,40 @@ document.querySelector('#auto').addEventListener('click', () => {
   analyze(document.querySelector('#fen').value);
 });
 
-load(chess.fen());
+document.querySelector('#match-mode').addEventListener('click', () => {
+  if (match_mode) {
+    auto = false;
+    match_mode = false;
+
+    document.querySelector('#auto').disabled = false;
+
+    document.querySelector('#auto').innerText = 'Auto (OFF)';
+    document.querySelector('#match-mode').innerText = 'Match Mode (OFF)';
+  } else {
+    auto = true;
+    match_mode = true;
+
+    if (arrow) arrow.remove();
+
+    document.querySelector('#auto').disabled = true;
+
+    document.querySelector('#auto').innerText = 'Auto (ON)';
+    document.querySelector('#match-mode').innerText = 'Match Mode (ON)';
+  }
+
+  load(document.querySelector('#fen').value);
+
+  analyze(document.querySelector('#fen').value);
+});
+
+document.querySelector('#reset').addEventListener('click', () => {
+  if (confirm('Do you want to reset the board?')) {
+    document.querySelector('#fen').value = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+
+    location.reload();
+  }
+});
+
+document.querySelector('#match-mode').click();
 
 analyze(chess.fen());
