@@ -689,3 +689,7 @@ export const Analyze = (fen: string, options: AnalyzeOptions = {}): Best => {
 
   return { from: chosen.from, to: chosen.to };
 };
+
+export default async function ({ fen, options = {} }: { fen: string; options?: AnalyzeOptions }) {
+  return Analyze(fen, options);
+}

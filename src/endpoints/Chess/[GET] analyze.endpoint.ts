@@ -1,4 +1,7 @@
-import { Analyze } from '../../utils/Analyze-v2.util';
+import Piscina from 'piscina';
+import path from 'path';
+
+import type { Analyze } from '../../utils/Analyze-v2.util';
 import { RESTSchema } from '../../utils/RESTSchema.util';
 
 import type { EndpointOptions } from '../../types/EndpointOptions.type';
@@ -6,20 +9,21 @@ import type { EndpointConfig } from '../../types/EndpointConfig.type';
 
 import type { GetApiAnalyze as Fields } from '../../generated/yuppi/types/GetApiAnalyze';
 
+const analyze = new Piscina({ filename: path.join('./', 'src', 'utils', 'Analyze-v2.util.ts') });
+
 export const GetAnalyze = {
-  // eslint-disable-next-line @typescript-eslint/require-await
   async handle({ props }: EndpointOptions) {
     const fields = props.context.fields as Fields;
 
-    let analyze;
+    let analyze_result: ReturnType<typeof Analyze>;
 
     try {
-      analyze = Analyze(fields.fen, { thinking_time: 2500 });
+      analyze_result = (await analyze.run({ fen: fields.fen, thinking_time: 5000 })) as ReturnType<typeof Analyze>;
     } catch {
       return RESTSchema({ message: 'Invalid FEN' }, 400, props);
     }
 
-    return RESTSchema(analyze ?? {}, 200, props);
+    return RESTSchema(analyze_result ?? {}, 200, props);
   },
 
   config(): EndpointConfig {

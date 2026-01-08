@@ -14,6 +14,7 @@
     "chess.js": "^1.4.0",
     "dayjs": "^1.11.19",
     "elysia": "^1.4.21",
+    "piscina": "^5.1.4",
     "prettier": "^3.7.4",
     "request-ip": "^3.3.0",
     "rulint": "^1.0.5",
