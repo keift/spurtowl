@@ -1,7 +1,7 @@
 import { Elysia, file } from 'elysia';
 import { cors } from '@elysiajs/cors';
 import { Yuppi } from 'yuppi';
-import { Log } from '@keift/utils';
+import { Logger } from '@keift/utils';
 
 import { buildRouter, Router } from './endpoints/Router.endpoint';
 
@@ -15,8 +15,8 @@ if (port === undefined) throw new Error('PORT not defined');
 
 global.config = config;
 
-global.Yuppi = new Yuppi({ folder_path: './src' });
-global.Log = new Log();
+global.Yuppi = new Yuppi({ output_dir: './src/generated/yuppi' });
+global.Logger = new Logger({ scope: 'Spurtowl' });
 global.NumberFormat = new Intl.NumberFormat('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
 
 await buildRouter();
@@ -44,6 +44,6 @@ App.get('/favicon.ico', () => file('./src/static/favicon.ico'));
 // eslint-disable-next-line @typescript-eslint/require-await
 void (async () => {
   App.listen(port, () => {
-    global.Log.info(`Elysia serving on port ${port}.`);
+    global.Logger.info(`Elysia serving on port ${port}.`);
   });
 })();

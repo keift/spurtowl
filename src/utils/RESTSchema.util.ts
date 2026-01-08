@@ -11,13 +11,13 @@ export const RESTSchema = (result: Record<string, unknown>, code: number, props:
 
   const endpoint_identifier = `${props.context.request.method.toLowerCase()}--${slug(props.context.route)}`;
 
-  if (code.toString().startsWith('4') || code.toString().startsWith('5')) success = false;
+  if (String(code).startsWith('4') || String(code).startsWith('5')) success = false;
   if (result.message !== undefined) result = { ...result, code: `${endpoint_identifier}/${slug(typeof result.message === 'string' ? result.message : '')}` };
 
   const ip_address = requestIP(props.context);
   const latency = Number((performance.now() - props.perf_now).toFixed(4));
 
-  global.Log.info(`\x1b[90m[\x1b[37m${ip_address} \x1b[90m⇋ ${latency.toFixed(2)} ms ${success ? '\x1b[32m' : '\x1b[31m'}${code.toString()}\x1b[90m] \x1b[34m${props.context.request.method.toUpperCase()} \x1b[33m${props.context.path}`);
+  global.Logger.info(`\x1b[90m[\x1b[37m${ip_address} \x1b[90m⇋ ${latency.toFixed(2)} ms ${success ? '\x1b[32m' : '\x1b[31m'}${String(code)}\x1b[90m] \x1b[34m${props.context.request.method.toUpperCase()} \x1b[33m${props.context.path}`);
 
   return JSON.stringify({ success, latency, code, result }, null, 2);
 };

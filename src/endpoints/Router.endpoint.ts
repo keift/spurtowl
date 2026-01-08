@@ -65,7 +65,7 @@ export const buildRouter = async () => {
           return RESTSchema({ message: errors[0] }, 400, props);
         }
       } catch (error) {
-        global.Log.error(error as string);
+        global.Logger.error(error as string);
 
         return RESTSchema({ message: 'Internal server error' }, 500, props);
       }
