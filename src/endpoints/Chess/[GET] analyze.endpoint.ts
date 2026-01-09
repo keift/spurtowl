@@ -1,4 +1,4 @@
-import Piscina from 'piscina';
+import { Piscina } from 'piscina';
 import path from 'path';
 
 import type { Analyze } from '../../utils/Analyze-v2.util';
