@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "start": "bun run --env-file=.env.product ./src/main.ts",
-    "start:dev": "bun run --watch --env-file=.env.product ./src/main.ts",
+    "start": "bun run --env-file=./.env.product ./src/main.ts",
+    "start:dev": "bun run --watch --env-file=./.env.product ./src/main.ts",
     "tests": "bun run lint && bun test",
     "prettier": "prettier --write ./",
     "lint": "eslint ./"
