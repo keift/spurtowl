@@ -9,7 +9,7 @@
   "dependencies": {
     "@elysiajs/cors": "^1.4.1",
     "@keift/utils": "^1.0.2",
-    "@types/bun": "^1.3.6",
+    "@types/bun": "^1.3.7",
     "@types/request-ip": "^0.0.41",
     "chess.js": "^1.4.0",
     "dayjs": "^1.11.19",
