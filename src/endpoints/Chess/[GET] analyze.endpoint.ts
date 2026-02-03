@@ -15,7 +15,7 @@ export const GetAnalyze = {
   async handle({ props }: EndpointOptions) {
     const fields = props.context.fields as Fields;
 
-    fields.fen
+    fields.fen;
 
     let analyze_result: ReturnType<typeof Analyze>;
 
