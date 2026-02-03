@@ -7,5 +7,5 @@
  */
 
 export interface GetApiAnalyze {
-  fen: string;
+  fen: string | number | boolean;
 }

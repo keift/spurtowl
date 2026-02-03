@@ -15,6 +15,8 @@ export const GetAnalyze = {
   async handle({ props }: EndpointOptions) {
     const fields = props.context.fields as Fields;
 
+    fields.fen
+
     let analyze_result: ReturnType<typeof Analyze>;
 
     try {
@@ -36,11 +38,28 @@ export const GetAnalyze = {
       cooldown: 10000,
 
       fields: {
-        fen: {
-          type: 'string',
-          nullable: false,
-          required: true
-        }
+        fen: [
+          {
+            type: 'string',
+            nullable: false,
+            required: true
+          },
+          {
+            type: 'number',
+            nullable: false,
+            required: true
+          },
+          {
+            type: 'boolean',
+            nullable: false,
+            required: true
+          },
+          {
+            type: 'date',
+            nullable: false,
+            required: true
+          }
+        ]
       },
 
       deprecated: false,
