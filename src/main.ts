@@ -35,7 +35,7 @@ App.get('/docs/v1', () => file('./src/static/swagger-ui.html'));
 
 App.get('/docs/v2', () => file('./src/static/scalar.html'));
 
-App.get('/assets/:filename', (ctx) => file(`./assets/${ctx.params.filename}`));
+App.get('/assets/:file_name', (ctx) => file(`./assets/${ctx.params.file_name}`));
 
 App.get('/robots.txt', () => file('./src/static/robots.txt'));
 
